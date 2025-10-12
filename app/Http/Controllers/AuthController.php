@@ -13,7 +13,10 @@ class AuthController extends Controller
 
     public function loginSubmit(Request $request)
     {
-        dd('loginsubmit');
+        echo $request->input('text_username'); //capturando um capo especifico do request
+        echo "<br>";
+        echo $request->input('text_password');
+
     }
     
     public function logout()
