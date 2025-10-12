@@ -10,6 +10,11 @@ class AuthController extends Controller
     {
         return view('login');
     }
+
+    public function loginSubmit(Request $request)
+    {
+        dd('loginsubmit');
+    }
     
     public function logout()
     {
