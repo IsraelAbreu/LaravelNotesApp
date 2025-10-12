@@ -1,5 +1,0 @@
-@extends('layouts.main_layout')
-@section('content')
-    <h3>Main Page</h3>
-    <h3>The value is: {{ $value }}</h3>
-@endsection
