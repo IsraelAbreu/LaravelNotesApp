@@ -16,7 +16,7 @@ class AuthController extends Controller
         //form validation
         $request->validate(
             [
-                'text_username' => 'required|min:3',
+                'text_username' => 'required|min:6',
                 'text_password' => 'required'
             ]
         );
