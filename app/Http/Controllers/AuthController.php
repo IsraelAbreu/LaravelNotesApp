@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -35,15 +36,35 @@ class AuthController extends Controller
         $username = $request->input('text_username');
         $userpass = $request->input('text_password');
 
-        //test database connection
-        try {
-            DB::connection()->getPdo();
-            echo 'Connection is Ok!';
-        } catch (\PDOException $e) {
-            echo "Connection failed: " . $e->getMessage();
+        //check if user exist
+        $user = User::where('username', $username)
+                    ->where('deleted_at', NULL)
+                    ->first();
+        if(!$user){
+            return redirect()
+                    ->back()
+                    ->withInput()
+                    ->with('loginError', 'Username ou Password incorretos');
         }
 
-        echo ' fim!';
+        if (!password_verify($userpass, $user->password)) {
+           return redirect()
+                    ->back()
+                    ->withInput()
+                    ->with('loginError', 'Username ou Password incorretos');
+        }
+
+        //update last login on DB
+        $user->last_login = date('Y-m-d H:i:s');
+        $user->save();
+
+        //login user - keep on the session the data logged user.
+        session([
+            'user' => $user->id,
+            'username' => $user->username
+        ]);
+
+        echo 'LOGIN REALIZADO COM SUCESSO!';
     }
     
     public function logout()
