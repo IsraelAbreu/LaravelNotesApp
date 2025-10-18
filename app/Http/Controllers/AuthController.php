@@ -69,6 +69,9 @@ class AuthController extends Controller
     
     public function logout()
     {
-        echo 'logout';
+        //logout from the aplication
+        session()->forget('user');
+        //redirect to login page
+        return redirect()->to('/login');
     }
 }
