@@ -64,7 +64,8 @@ class AuthController extends Controller
             'username' => $user->username
         ]);
 
-        echo 'LOGIN REALIZADO COM SUCESSO!';
+        // redirect to homepage
+        return redirect()->to('/');
     }
     
     public function logout()
