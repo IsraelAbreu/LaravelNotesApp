@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Note;
 use App\Models\User;
+use App\Services\Operations;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -20,28 +22,53 @@ class MainController extends Controller
 
     public function newNote()
     {
-        echo "Criando uma nova nota!";
+        //show new note view
+        return view('new_note');
+    }
+
+    public function newNoteSubmit(Request $request){
+        //validate request
+        $request->validate(
+            //rules
+            [
+                'text_title' => 'required|min:3|max:200',
+                'text_note' => 'required|min:3|max:3000'
+            ],
+            //messages
+            [
+                'text_title.required' => 'Um título é obrigatório',
+                'text_title.min' => 'O título precisa ter no mínimo :min caracteres',
+                'text_title.max' => 'O título pode ter no máximo :max caracteres',
+
+                'text_note.required' => 'A descrição é obrigatória',
+                'text_note.min' => 'A descrição precisa ter no mínimo :min caracteres',
+                'text_note.max' => 'A descrição pode ter no máximo :max caracteres'
+            ]
+        );
+        //get user id
+        $id = session('user');
+
+        //create new note
+        $note = new Note();
+        $note->user_id = $id;
+        $note->title = $request->text_title;
+        $note->text = $request->text_note;
+        $note->save();
+
+        //redirect to home
+        return redirect()->route('home');
     }
 
     public function editNote( $id)
     {
-        $id = $this->decryptId($id);
+        $id = Operations::decryptId($id);
         echo "I'm editing note with id = $id";
     }
 
-    public function deleteNote($id) {
-        $id = $this->decryptId($id);
+    public function deleteNote($id) 
+    {
+        $id = Operations::decryptId($id);
         echo "I'm deleting note with id = $id";
     }
 
-    private function decryptId($id){
-        //check if $id is encrypted
-        try {
-            $id = Crypt::decrypt($id);
-        } catch (DecryptException $e) {
-            return redirect()->route('home');
-        }
-
-        return $id;
-    }
 }
