@@ -12,7 +12,11 @@ class MainController extends Controller
     {
        //load user's note
         $id = session('user');
-        $notes = User::find($id)->notes()->get()->toArray();
+        $notes = User::find($id)
+            ->notes()
+            ->whereNull('deleted_at')
+            ->get()
+            ->toArray();
        //show home view
         return view('home', ['notes' => $notes]);
     }
@@ -100,12 +104,38 @@ class MainController extends Controller
 
         return redirect()->route('home');
 
-    } 
+    }
 
-    public function deleteNote($id) 
+    public function deleteNoteConfirm($id)
     {
         $id = Operations::decryptId($id);
-        echo "I'm deleting note with id = $id";
+
+        $note = Note::find($id);
+        if ($id == null) {
+           return redirect()->route('home');
+        }
+        return view('delete_note', ['note'=> $note]);
+    }
+
+    public function deleteNoteSubmit($id) 
+    {
+        $id = Operations::decryptId($id);
+
+        $note = Note::find($id);
+        //1. hard delete
+        // $note->delete();
+
+        // 2. soft delete updating deleted_at column
+        // $note->deleted_at = date('Y-m-d H:i:s');
+        // $note->save();
+
+        //3. soft delete (property SoftDelete In Model)
+        $note->delete();
+
+        //4 . hard delete (property SoftDelete In Model)
+        //$note->forceDelete();
+
+        return redirect()->route('home');
     }
 
 }

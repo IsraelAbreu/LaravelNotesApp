@@ -18,7 +18,7 @@
                     <div class="col text-end">
                         <a href="{{route('editNote', ['id' => Crypt::encrypt($note['id'])])}}" class="btn btn-outline-secondary btn-sm mx-1"><i
                                 class="fa-regular fa-pen-to-square"></i></a>
-                        <a href="{{route('deleteNote', ['id' => Crypt::encrypt($note['id'])])}}" class="btn btn-outline-danger btn-sm mx-1"><i
+                        <a href="{{route('deleteNoteConfirm', ['id' => Crypt::encrypt($note['id'])])}}" class="btn btn-outline-danger btn-sm mx-1"><i
                                 class="fa-regular fa-trash-can"></i></a>
                     </div>
                 </div>
