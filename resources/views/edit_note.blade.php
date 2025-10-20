@@ -17,7 +17,7 @@
                 </div>
 
                 <!-- form -->
-                <form action="{{ route('editNoteSubmit', $note->id) }}" method="post">
+                <form action="{{ route('editNoteSubmit', Crypt::encrypt($note->id)) }}" method="post">
                     @csrf
                     <div class="row mt-3">
                         <div class="col">
