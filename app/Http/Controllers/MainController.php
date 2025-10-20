@@ -59,11 +59,19 @@ class MainController extends Controller
         return redirect()->route('home');
     }
 
-    public function editNote( $id)
+    public function editNote($id)
     {
         $id = Operations::decryptId($id);
-        echo "I'm editing note with id = $id";
+
+        $note = Note::find($id);
+
+        return view('edit_note', ['note' => $note]);
     }
+
+    public function editNoteSubmit(Request $request, $id)
+    {
+       
+    } 
 
     public function deleteNote($id) 
     {
