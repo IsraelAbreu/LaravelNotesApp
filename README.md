@@ -1,4 +1,4 @@
-<img src="/public/assets/images/presentation_github.png" width="400" alt="Imagem de apresentação">
+<img src="/public/assets/images/presentation_github.png" width="100%" alt="Imagem de apresentação">
 
 # LaravelNotesApp
 
@@ -79,4 +79,4 @@ Este projeto está licenciado sob a MIT License
 
 Se tiver dúvidas, sugestões ou quiser conversar sobre o projeto, pode me chamar no GitHub: @IsraelAbreu
 
-# 🧑‍💻 Desenvolvido por Israel – Estudando Desenvolvimento Web
+🧑‍💻 Desenvolvido por Israel – Estudando Desenvolvimento Web
